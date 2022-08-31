@@ -80,3 +80,13 @@
 .children {
   min-height: 90vh;
 }
+
+@media screen and (max-width: 700px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .navbar button {
+    margin: 0px 5px;
+  }
+}
