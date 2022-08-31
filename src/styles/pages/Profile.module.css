@@ -186,7 +186,7 @@
   border-radius: 3px;
   font-size: 13px;
   font-weight: 500;
-  margin: 0px 8px;
+  margin: 10px 8px;
   padding: 2px 8px;
 }
 
@@ -274,4 +274,43 @@
   font-weight: 600;
   color: #727272;
   letter-spacing: 0.3px;
+}
+
+@media screen and (max-width: 700px) {
+  .profile {
+    width: 100%;
+    margin: 20px;
+  }
+  .personalInformation {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .personalInformation .informationContainer {
+    margin-left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .informationContainer h1 {
+    margin-top: 30px;
+  }
+
+  .informationContainer p {
+    text-align: center;
+  }
+
+  .information {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .projects,
+  .skills {
+    flex-wrap: wrap;
+  }
 }

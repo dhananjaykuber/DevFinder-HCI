@@ -366,3 +366,40 @@
   color: #412d6b;
   font-weight: 600;
 }
+
+@media screen and (max-width: 750px) {
+  #formContainer {
+    flex-direction: column;
+    padding: 100px 20px;
+  }
+
+  .profileForm {
+    margin-left: 0px;
+    width: 80vw;
+    margin: auto;
+    margin-top: 30px;
+  }
+
+  .heroSection {
+    width: 100%;
+    align-items: center;
+  }
+
+  .heroSection p {
+    text-align: center;
+  }
+
+  .row1 {
+    flex-direction: column;
+  }
+
+  .field select {
+    width: 100% !important;
+  }
+
+  .socialLinks .linkRow1,
+  .socialLinks .linkRow2 {
+    flex-direction: column;
+    align-items: unset;
+  }
+}

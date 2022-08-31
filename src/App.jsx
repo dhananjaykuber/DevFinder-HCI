@@ -7,7 +7,6 @@ import Login from './pages/login';
 import Users from './pages/users';
 import Layout from './components/Layout';
 import Profile from './pages/profile';
-import UserProfile from './pages/userprofile';
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
             <Route path="/users/:username" element={<Profile />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </Router>
       </Layout>

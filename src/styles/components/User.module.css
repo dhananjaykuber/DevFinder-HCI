@@ -73,3 +73,39 @@
   border-radius: 3px;
   margin: 8px 3px 0px;
 }
+
+@media screen and (max-width: 615px) {
+  .user {
+    margin: 10px 10px;
+    padding: 15px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .user img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .profileHeader h3 {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .user h4,
+  .user p {
+    text-align: center;
+  }
+
+  .information {
+    width: 100%;
+    margin-left: 20px;
+  }
+
+  .skills {
+    align-items: center;
+    justify-content: center;
+  }
+}
