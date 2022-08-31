@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/pages/Home.module.css';
 
 const Dropdown = () => {
+  const inputRef = useRef();
+
   const technologies = [
     'C',
     'CPP',
@@ -19,60 +21,55 @@ const Dropdown = () => {
     'AWS',
     'Azure',
   ];
-  const branches = [
-    'Computer Engineering',
-    'IT Engineering',
-    'E & TC Engineering',
-    'Civil Engineering',
-    'Mechanical Engineering',
-    'Electrical Engineering',
-  ];
 
-  const [openDropdown1, setOpenDropdown1] = useState(false);
-  const [openDropdown2, setOpenDropdown2] = useState(false);
-  const [openDropdown3, setOpenDropdown3] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
 
-  const [student, setStudent] = useState('');
-  const [alumni, setAlumni] = useState('');
   const [technology, setTechnology] = useState('');
 
-  const handleOpenDropdown1 = () => {
-    setOpenDropdown1(!openDropdown1);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const setEmpty = () => {
+    setTechnology('');
   };
-  const handleOpenDropdown2 = () => {
-    setOpenDropdown2(!openDropdown2);
-  };
-  const handleOpenDropdown3 = () => {
-    setOpenDropdown3(!openDropdown3);
+
+  const handleOpenDropdown = () => {
+    setEmpty();
+    setOpenDropdown(!openDropdown);
+    inputRef.current.focus();
   };
 
   return (
     <div className={styles.dropdownContainer}>
+      <h2>
+        Search Developers <br /> By Their <span>Skills</span>
+      </h2>
       <div className={styles.dropdown}>
         <div className={styles.dropdownWrapper}>
-          <div className={styles.dropdownHeading}>
+          <div className={styles.dropdownHeading} onClick={handleOpenDropdown}>
             <div>
-              <h4>Student</h4>
-              <p>Which student you are looking for?</p>
+              <h4>Skill</h4>
+              <p>Which skill you are looking for?</p>
             </div>
-            {openDropdown1 ? (
+            {openDropdown ? (
               <i
                 className="fa-solid fa-angle-up"
                 style={{ fontSize: '12px' }}
-                onClick={() => setOpenDropdown1(!openDropdown1)}
+                onClick={() => setOpenDropdown(!openDropdown)}
               ></i>
             ) : (
               <i
                 className="fa-solid fa-chevron-down"
                 style={{ fontSize: '12px' }}
-                onClick={handleOpenDropdown1}
+                onClick={handleOpenDropdown}
               ></i>
             )}
           </div>
 
           <div
             className={
-              openDropdown1
+              openDropdown
                 ? `${styles.dropdownScrollView} ${styles.show}`
                 : `${styles.dropdownScrollView}`
             }
@@ -80,107 +77,8 @@ const Dropdown = () => {
             <div className={styles.dropdownContent}>
               <input
                 type="text"
-                placeholder="Type to search"
-                value={student}
-                onChange={(e) => setStudent(e.target.value)}
-              />
-              {branches
-                .filter((branch) =>
-                  branch.toLowerCase().includes(student.toLowerCase())
-                )
-                .map((branch) => (
-                  <span key={branch} onClick={() => setStudent(branch)}>
-                    {branch}
-                  </span>
-                ))}
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.divider}></div>
-
-        <div className={styles.dropdownWrapper}>
-          <div className={styles.dropdownHeading}>
-            <div>
-              <h4>Alumni</h4>
-              <p>Which alumni you are looking for?</p>
-            </div>
-            {openDropdown2 ? (
-              <i
-                className="fa-solid fa-angle-up"
-                style={{ fontSize: '12px' }}
-                onClick={() => setOpenDropdown2(!openDropdown2)}
-              ></i>
-            ) : (
-              <i
-                className="fa-solid fa-chevron-down"
-                style={{ fontSize: '12px' }}
-                onClick={handleOpenDropdown2}
-              ></i>
-            )}
-          </div>
-
-          <div
-            className={
-              openDropdown2
-                ? `${styles.dropdownScrollView} ${styles.show}`
-                : `${styles.dropdownScrollView}`
-            }
-          >
-            <div className={styles.dropdownContent}>
-              <input
-                type="text"
-                placeholder="Type to search"
-                value={alumni}
-                onChange={(e) => setAlumni(e.target.value)}
-              />
-              {branches
-                .filter((branch) =>
-                  branch.toLowerCase().includes(alumni.toLowerCase())
-                )
-                .map((branch) => (
-                  <span key={branch} onClick={() => setAlumni(branch)}>
-                    {branch}
-                  </span>
-                ))}
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.divider}></div>
-
-        <div className={styles.dropdownWrapper}>
-          <div className={styles.dropdownHeading}>
-            <div>
-              <h4>Technology</h4>
-              <p>Which technology you are looking for?</p>
-            </div>
-            {openDropdown3 ? (
-              <i
-                className="fa-solid fa-angle-up"
-                style={{ fontSize: '12px' }}
-                onClick={() => setOpenDropdown3(!openDropdown3)}
-              ></i>
-            ) : (
-              <i
-                className="fa-solid fa-chevron-down"
-                style={{ fontSize: '12px' }}
-                onClick={handleOpenDropdown3}
-              ></i>
-            )}
-          </div>
-
-          <div
-            className={
-              openDropdown3
-                ? `${styles.dropdownScrollView} ${styles.show}`
-                : `${styles.dropdownScrollView}`
-            }
-          >
-            <div className={styles.dropdownContent}>
-              <input
-                type="text"
-                placeholder="Type to search"
+                ref={inputRef}
+                placeholder="Type skill to search"
                 value={technology}
                 onChange={(e) => setTechnology(e.target.value)}
               />
@@ -200,7 +98,11 @@ const Dropdown = () => {
         <div className={styles.divider}></div>
 
         <button className={styles.search}>
-          <i className="fa-solid fa-magnifying-glass"></i>
+          Search
+          <i
+            className="fa-solid fa-magnifying-glass"
+            style={{ marginLeft: '10px', fontSize: '12px' }}
+          ></i>
         </button>
       </div>
     </div>

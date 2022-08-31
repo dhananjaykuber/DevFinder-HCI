@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/Forms.module.css';
 
 const Signup = () => {
-  const branches = [
-    'Computer Engineering',
-    'IT Engineering',
-    'E & TC Engineering',
-    'Civil Engineering',
-    'Mechanical Engineering',
-    'Electrical Engineering',
-  ];
-
   const technologies = [
     'C',
     'CPP',
@@ -29,29 +20,28 @@ const Signup = () => {
     'Azure',
   ];
 
+  const [activeWizard, setActiveWizard] = useState('1');
+
   const [openDropdown, setOpenDropdown] = useState(false);
   const [technology, setTechnology] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [accountType, setAccounType] = useState('Student');
+  const [accountType, setAccounType] = useState('Developer');
 
   const [skills, setSkills] = useState([]);
-  const [years, setYears] = useState([]);
-
-  useEffect(() => {
-    const currentYear = new Date().getFullYear();
-    for (let i = 2000; i < currentYear; i++) {
-      setYears((years) => [...years, i]);
-    }
-  }, []);
 
   const handleAccountTypeChange = (e) => {
     setAccounType(e.target.value);
   };
 
+  const handleChangeWizard = (wizardNumber) => {
+    setActiveWizard(wizardNumber);
+  };
+
   return (
     <div id={styles.formContainer}>
       <div className={styles.heroSection}>
-        <h3>Create your profile.</h3>
+        <h3>Create your account.</h3>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis,
           modi! Dolorem sequi quia fuga nulla.
@@ -60,8 +50,61 @@ const Signup = () => {
       </div>
 
       <div className={styles.profileForm}>
+        <div className={styles.wizard}>
+          <div
+            className={
+              activeWizard === '1'
+                ? `${styles.wizardItem} ${styles.activeWizard}`
+                : `${styles.wizardItem}`
+            }
+            onClick={() => handleChangeWizard('1')}
+          >
+            <i
+              className={`fa-solid fa-user ${
+                activeWizard === '1' && styles.activeWizardItem
+              }`}
+            ></i>
+          </div>
+          <div className={styles.line}></div>
+          <div
+            className={
+              activeWizard === '2'
+                ? `${styles.wizardItem} ${styles.activeWizard}`
+                : `${styles.wizardItem}`
+            }
+            onClick={() => handleChangeWizard('2')}
+          >
+            <i
+              className={`fa-solid fa-wrench ${
+                activeWizard === '2' && styles.activeWizardItem
+              }`}
+            ></i>
+          </div>
+          <div className={styles.line}></div>
+          <div
+            className={
+              activeWizard === '3'
+                ? `${styles.wizardItem} ${styles.activeWizard}`
+                : `${styles.wizardItem}`
+            }
+            onClick={() => handleChangeWizard('3')}
+          >
+            <i
+              className={`fa-solid fa-share-nodes ${
+                activeWizard === '3' && styles.activeWizardItem
+              }`}
+            ></i>
+          </div>
+        </div>
+
         <div className={styles.form}>
-          <div className={styles.profilePicker}>
+          {/* Section 1 */}
+          <div
+            className={styles.profilePicker}
+            style={
+              activeWizard === '1' ? { display: 'flex' } : { display: 'none' }
+            }
+          >
             <img src="/images/profile_picker.svg" alt="profile_picker" />
 
             <input
@@ -73,7 +116,12 @@ const Signup = () => {
             <label htmlFor="picker">Upload Profile Picture</label>
           </div>
 
-          <div className={styles.section}>
+          <div
+            className={styles.section}
+            style={
+              activeWizard === '1' ? { display: 'block' } : { display: 'none' }
+            }
+          >
             <div className={styles.divider}>
               <div></div>
               <h4>Personal Details</h4>
@@ -101,8 +149,8 @@ const Signup = () => {
               <div className={styles.field}>
                 <p>Select account type *</p>
                 <select onChange={(e) => handleAccountTypeChange(e)}>
-                  <option value="Student">Student</option>
-                  <option value="Alumni">Alumni</option>
+                  <option value="Developer">Developer</option>
+                  <option value="Recruiter">Recruiter</option>
                 </select>
               </div>
             </div>
@@ -116,108 +164,25 @@ const Signup = () => {
               <p>Contact number *</p>
               <input type="text" placeholder="Contact number" />
             </div>
+            <button>Next</button>
+          </div>
 
+          {/* Section 2 */}
+          <div
+            className={styles.section}
+            style={
+              activeWizard === '2' ? { display: 'block' } : { display: 'none' }
+            }
+          >
+            <div className={styles.divider}>
+              <div></div>
+              <h4>Skills and Experience</h4>
+              <div></div>
+            </div>
             <div className={styles.field}>
               <p>Write something about you</p>
               <textarea type="text" rows={4} placeholder="About yourself" />
             </div>
-          </div>
-
-          {accountType === 'Alumni' && (
-            <>
-              <div className={styles.section}>
-                <div className={styles.divider}>
-                  <div></div>
-                  <h4>Location</h4>
-                  <div></div>
-                </div>
-                <div className={styles.field}>
-                  <p>City where you are working *</p>
-                  <input
-                    type="email"
-                    placeholder="Ex. Pune, Mumbai, Hyderabad"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.section}>
-                <div className={styles.divider}>
-                  <div></div>
-                  <h4>Other Information</h4>
-                  <div></div>
-                </div>
-                <div className={styles.field}>
-                  <p>Company where you are working *</p>
-                  <input type="text" placeholder="Ex. Accenture, TCS" />
-                </div>
-                <div className={styles.row1}>
-                  <div className={styles.field}>
-                    <p>Branch *</p>
-                    <select name="" id="">
-                      {branches.map((branch) => (
-                        <option key={branch} value={branch}>
-                          {branch}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <p>Year of Graduation *</p>
-                    <select name="" id="">
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {accountType === 'Student' && (
-            <>
-              <div className={styles.section}>
-                <div className={styles.divider}>
-                  <div></div>
-                  <h4>Academic Details</h4>
-                  <div></div>
-                </div>
-
-                <div className={styles.row1}>
-                  <div className={styles.field}>
-                    <p>Branch *</p>
-                    <select name="" id="">
-                      {branches.map((branch) => (
-                        <option key={branch} value={branch}>
-                          {branch}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className={styles.field}>
-                    <p>Current year *</p>
-                    <select name="" id="">
-                      <option value="1st Year (FY)">1st Year (FY)</option>
-                      <option value="2nd Year (SE)">2nd Year (SE)</option>
-                      <option value="3rd Year (TE)">3rd Year (TE)</option>
-                      <option value="4th Year (BE)">4th Year (BE)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          <div className={styles.section}>
-            <div className={styles.divider}>
-              <div></div>
-              <h4>Skills and Experties</h4>
-              <div></div>
-            </div>
-
             <div className={styles.field}>
               <p>Select Skills *</p>
               <div className={styles.skills}>
@@ -230,6 +195,7 @@ const Signup = () => {
                           onClick={() => {
                             skills.splice(skills.indexOf(skill), 1);
                             document.getElementById(skill).remove();
+                            console.log(skills);
                           }}
                         ></i>
                       </span>
@@ -247,42 +213,50 @@ const Signup = () => {
                 ></i>
               </div>
             </div>
+
+            <div
+              className={
+                openDropdown
+                  ? `${styles.dropdownScrollView} ${styles.show}`
+                  : `${styles.dropdownScrollView}`
+              }
+            >
+              <div className={styles.dropdownContent}>
+                <input
+                  type="text"
+                  placeholder="Type to search"
+                  value={technology}
+                  onChange={(e) => setTechnology(e.target.value)}
+                />
+                {technologies
+                  .filter((tech) =>
+                    tech.toLowerCase().includes(technology?.toLowerCase())
+                  )
+                  .map((technology) => (
+                    <span
+                      key={technology}
+                      onClick={() => {
+                        if (!skills.includes(technology)) {
+                          setSkills((skills) => [...skills, technology]);
+                        }
+                      }}
+                    >
+                      {technology}
+                    </span>
+                  ))}
+              </div>
+            </div>
+            <button>Back</button>
+            <button style={{ marginTop: '15px' }}>Next</button>
           </div>
 
+          {/* Section 3 */}
           <div
-            className={
-              openDropdown
-                ? `${styles.dropdownScrollView} ${styles.show}`
-                : `${styles.dropdownScrollView}`
+            className={styles.section}
+            style={
+              activeWizard === '3' ? { display: 'block' } : { display: 'none' }
             }
           >
-            <div className={styles.dropdownContent}>
-              <input
-                type="text"
-                placeholder="Type to search"
-                value={technology}
-                onChange={(e) => setTechnology(e.target.value)}
-              />
-              {technologies
-                .filter((tech) =>
-                  tech.toLowerCase().includes(technology.toLowerCase())
-                )
-                .map((technology) => (
-                  <span
-                    key={technology}
-                    onClick={() => {
-                      if (!skills.includes(technology)) {
-                        setSkills((skills) => [...skills, technology]);
-                      }
-                    }}
-                  >
-                    {technology}
-                  </span>
-                ))}
-            </div>
-          </div>
-
-          <div className={styles.section}>
             <div className={styles.divider}>
               <div></div>
               <h4>Social Links</h4>
@@ -322,11 +296,37 @@ const Signup = () => {
                   <input type="text" placeholder="Ex. username" />
                 </div>
               </div>
+              <div className={styles.field}>
+                <p>Password *</p>
+                <div className={styles.password}>
+                  <input
+                    type={showPassword ? `text` : `password`}
+                    placeholder="Password"
+                  />
+                  {showPassword ? (
+                    <i
+                      class="fa-solid fa-eye-slash"
+                      onClick={() => setShowPassword(!showPassword)}
+                    ></i>
+                  ) : (
+                    <i
+                      class="fa-solid fa-eye"
+                      onClick={() => setShowPassword(!showPassword)}
+                    ></i>
+                  )}
+                </div>
+              </div>
+              <button>Back</button>
+              <button style={{ marginTop: '15px' }}>Signup</button>
             </div>
-            <button>Signup</button>
           </div>
         </div>
-        <div className={styles.bottom}>
+        <div
+          className={styles.bottom}
+          style={
+            activeWizard === '1' ? { display: 'flex' } : { display: 'none' }
+          }
+        >
           <span>
             Already have an account! <a href="/login">Click here</a>
           </span>

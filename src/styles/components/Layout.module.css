@@ -3,9 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #e0e8f9;
+  background: #e5daff;
   padding: 15px 50px;
   border-bottom: 0.5px solid #72727234;
+}
+
+.navbar div {
+  display: flex;
+  justify-content: center;
 }
 
 .navbar a {
@@ -15,39 +20,59 @@
   font-weight: 700;
 }
 
+.navbar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar button {
   background: transparent;
+  border-radius: 3px;
   border: none;
-  border-radius: 0px;
   font-size: 14px;
   font-weight: 600;
   padding: 9px 20px;
-  margin: 0px 15px;
+  margin: 0px 10px;
   cursor: pointer;
 }
 
-.navbar .login {
-  background: linear-gradient(140deg, #0d6ddf, #001ec1 80%);
-  border-radius: 3px;
+.navbar .login,
+.navbar .logout {
+  background: linear-gradient(140deg, #412d6b, #7c57d2 80%);
   color: #fdfdfd;
 }
 
 .navbar .signup {
-  padding: 1px 0px;
+  padding: 8px 20px;
+  border: 1px solid transparent;
 }
 
 .navbar .signup:hover {
-  border-bottom: 1px solid #333333;
+  border-color: #7c57d2;
+  background: linear-gradient(140deg, #412d6b, #7c57d2 80%);
+  color: #fdfdfd;
+}
+
+.navbar .logout i {
+  margin-left: 5px;
+}
+
+.navbar .profileImage {
+  width: 35px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 /* Footer */
 .footer {
-  background: #0d6ddf;
+  background: #533e85;
   padding: 50px 0px;
 }
 
-.footer h3 {
+.footer p {
   color: #fdfdfd;
+  text-align: center;
   font-weight: 400;
 }
 

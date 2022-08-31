@@ -4,7 +4,7 @@ import styles from '../styles/components/Layout.module.css';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <h3>ModernConnect</h3>
+      <p>&copy; 2022 | ModernConnect</p>
     </footer>
   );
 };

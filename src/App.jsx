@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
-// import Forgot from './pages/forgot';
-import User from './pages/user';
+import Users from './pages/users';
 import Layout from './components/Layout';
+import Profile from './pages/profile';
+import UserProfile from './pages/userprofile';
 
 function App() {
   return (
@@ -15,10 +16,11 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:username" element={<User />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:username" element={<Profile />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/forgot" element={<Forgot />} /> */}
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </Router>
       </Layout>
