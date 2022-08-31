@@ -60,3 +60,10 @@
   margin: 3px 5px 3px 0;
   padding: 2px 8px;
 }
+
+@media screen and (max-width: 700px) {
+  .project {
+    width: 90vw;
+    height: 100%;
+  }
+}
