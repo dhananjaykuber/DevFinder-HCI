@@ -13,6 +13,14 @@
   justify-content: center;
 }
 
+.navbar h4 {
+  text-decoration: none;
+  color: #333333;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .navbar a {
   text-decoration: none;
   color: #333333;

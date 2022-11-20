@@ -5,9 +5,9 @@
   padding: 20px 20px;
   border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.374);
-  -webkit-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.16);
-  -moz-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.16);
+  box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -webkit-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -moz-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
 }
 
 .user img {
@@ -74,6 +74,12 @@
   margin: 8px 3px 0px;
 }
 
+.skills span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 615px) {
   .user {
     margin: 10px 10px;
@@ -81,6 +87,7 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    width: 86vw;
   }
 
   .user img {

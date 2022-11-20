@@ -10,9 +10,9 @@
   padding: 50px 40px;
   border-radius: 5px;
   position: relative;
-  box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.13);
-  -webkit-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.13);
-  -moz-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.075);
+  box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -webkit-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -moz-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
 }
 
 .profile .personalInformation {
@@ -32,10 +32,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
 .personalInformationEdit i {
   font-size: 12px;
+  z-index: 1;
 }
 
 .personalInformation img {
@@ -157,10 +159,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .skillEdit i {
   font-size: 12px;
+  cursor: pointer;
 }
 
 .profile .skillProject h2 {
@@ -221,6 +225,7 @@
   align-items: center;
   justify-content: center;
   margin-top: 25px;
+  flex-wrap: wrap;
 }
 
 /* Work experience */
@@ -277,6 +282,9 @@
 }
 
 @media screen and (max-width: 700px) {
+  .information h1 {
+    text-align: center;
+  }
   .profile {
     width: 70vw;
     margin: 20px;
@@ -313,4 +321,76 @@
   .skills {
     flex-wrap: wrap;
   }
+}
+
+/* Dialog */
+.dialog {
+  display: none;
+}
+
+.opened {
+  display: block;
+}
+
+.dialogContent {
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fdfdfd;
+  padding: 20px;
+  z-index: 2;
+  width: 450px;
+  border-radius: 7px;
+}
+
+.dialogContent .contentWrapper {
+  margin-top: 20px;
+}
+
+.dialogMask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #000000c5;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.dialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.dialogContent .closeIcon {
+  color: #333333;
+  cursor: pointer;
+}
+
+.dialogContent h4 {
+  font-size: 17px;
+  margin-top: 3px;
+  color: #333333;
+  font-weight: 700;
+}
+
+.dialogContent .contentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contentWrapper .titlePicture {
+  cursor: pointer;
+}
+
+.contentWrapper .titleIcon {
+  cursor: pointer;
+  margin: 10px 10px;
 }

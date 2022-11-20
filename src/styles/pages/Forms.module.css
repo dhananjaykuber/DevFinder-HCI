@@ -31,9 +31,9 @@
   width: 600px;
   border-radius: 5px;
   padding: 30px;
-  box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.13);
-  -webkit-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.13);
-  -moz-box-shadow: 0px 0px 4px 1px rgba(51, 51, 51, 0.075);
+  box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -webkit-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
+  -moz-box-shadow: 0px 0px 7px 2px rgb(0 0 0 / 23%);
   margin-left: 30px;
 }
 
@@ -365,6 +365,25 @@
 .bottom span a {
   color: #412d6b;
   font-weight: 600;
+}
+
+.error {
+  background-color: #ffdddd;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d70d0d;
+}
+
+.error p {
+  color: #d70d0d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.emptyFieldError {
+  border: 1px solid #d70d0d !important;
 }
 
 @media screen and (max-width: 750px) {

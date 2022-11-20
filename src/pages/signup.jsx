@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../styles/pages/Forms.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useContextState } from '../hooks/useContextState';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 const Signup = () => {
   const technologies = [
@@ -10,7 +13,11 @@ const Signup = () => {
     'HTML',
     'CSS',
     'JavaScript',
+    'TypeScript',
     'React',
+    'NextJS',
+    'ReactNative',
+    'Firebase',
     'Redux',
     'DevOps',
     'Django',
@@ -20,22 +27,113 @@ const Signup = () => {
     'Azure',
   ];
 
+  const { dispatch } = useContextState();
+
+  const navigate = useNavigate();
+
   const [activeWizard, setActiveWizard] = useState('1');
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const [technology, setTechnology] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const [accountType, setAccounType] = useState('Developer');
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [emptyFields, setEmptyFields] = useState([]);
 
-  const [skills, setSkills] = useState([]);
-
-  const handleAccountTypeChange = (e) => {
-    setAccounType(e.target.value);
-  };
+  const [userData, setUserData] = useState({
+    image: '/images/user.png',
+    name: '',
+    gender: '',
+    accountType: 'Developer',
+    email: '',
+    contactNumber: '',
+    bio: '',
+    domain: '',
+    skills: [],
+    linkedin: '',
+    github: '',
+    twitter: '',
+    portfolio: '',
+    password: '',
+    projects: [],
+  });
 
   const handleChangeWizard = (wizardNumber) => {
+    setError(null);
+    setShowError(false);
     setActiveWizard(wizardNumber);
+  };
+
+  const handleFirstWizard = () => {
+    setError(null);
+    setShowError(false);
+
+    if (
+      userData.name.length <= 0 ||
+      userData.gender.length <= 0 ||
+      userData.email.length <= 0 ||
+      userData.contactNumber.length <= 0
+    ) {
+      setError('All fields are required!');
+      setShowError(true);
+    } else {
+      handleChangeWizard('2');
+      setError(null);
+      setShowError(false);
+    }
+  };
+
+  const handleSecondWizard = () => {
+    setError(null);
+    setShowError(false);
+
+    if (userData.bio.length <= 0 || userData.skills.length <= 0) {
+      setError('All fields are required!');
+      setShowError(true);
+    } else if (userData.skills.length < 3) {
+      setError('Select at least 3 skills!');
+      setShowError(true);
+    } else {
+      handleChangeWizard('3');
+    }
+  };
+
+  const handleSignup = async () => {
+    setError(null);
+    setShowError(false);
+
+    if (
+      userData.linkedin.length <= 0 ||
+      userData.github.length <= 0 ||
+      userData.password.length <= 0
+    ) {
+      setError('Please fill required fields!');
+      setShowError(true);
+    } else {
+      const response = await fetch(
+        'https://devfinder-backend.onrender.com/api/user/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...userData }),
+        }
+      );
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error);
+        setShowError(true);
+      }
+      if (response.ok) {
+        localStorage.setItem('user', JSON.stringify(json));
+        dispatch({ type: 'LOGIN', payload: json });
+        navigate('/profile');
+      }
+    }
   };
 
   return (
@@ -99,6 +197,23 @@ const Signup = () => {
 
         <div className={styles.form}>
           {/* Section 1 */}
+
+          {showError && (
+            <div className={styles.error}>
+              <p>
+                {error}
+                <AiFillCloseCircle
+                  size={20}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    setShowError(false);
+                    setEmptyFields([]);
+                  }}
+                />
+              </p>
+            </div>
+          )}
+
           <div
             className={styles.profilePicker}
             style={
@@ -130,7 +245,13 @@ const Signup = () => {
 
             <div className={styles.field}>
               <p>Name *</p>
-              <input type="text" placeholder="Name" />
+              <input
+                type="text"
+                placeholder="Name"
+                onChange={(e) =>
+                  setUserData({ ...userData, name: e.target.value })
+                }
+              />
             </div>
 
             <div className={styles.row1}>
@@ -138,17 +259,35 @@ const Signup = () => {
                 <p>Gender *</p>
                 <span>
                   Male
-                  <input type="radio" value="Male" name="gender" />
+                  <input
+                    type="radio"
+                    value="Male"
+                    name="gender"
+                    onChange={(e) =>
+                      setUserData({ ...userData, gender: e.target.value })
+                    }
+                  />
                 </span>
                 <span>
                   Female
-                  <input type="radio" value="Female" name="gender" />
+                  <input
+                    type="radio"
+                    value="Female"
+                    name="gender"
+                    onChange={(e) =>
+                      setUserData({ ...userData, gender: e.target.value })
+                    }
+                  />
                 </span>
               </div>
 
               <div className={styles.field}>
                 <p>Select account type *</p>
-                <select onChange={(e) => handleAccountTypeChange(e)}>
+                <select
+                  onChange={(e) =>
+                    setUserData({ ...userData, accountType: e.target.value })
+                  }
+                >
                   <option value="Developer">Developer</option>
                   <option value="Recruiter">Recruiter</option>
                 </select>
@@ -157,14 +296,26 @@ const Signup = () => {
 
             <div className={styles.field}>
               <p>Personal email *</p>
-              <input type="email" placeholder="Personal email" />
+              <input
+                type="email"
+                placeholder="Personal email"
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
             </div>
 
             <div className={styles.field}>
               <p>Contact number *</p>
-              <input type="text" placeholder="Contact number" />
+              <input
+                type="text"
+                placeholder="Contact number"
+                onChange={(e) =>
+                  setUserData({ ...userData, contactNumber: e.target.value })
+                }
+              />
             </div>
-            <button>Next</button>
+            <button onClick={handleFirstWizard}>Next</button>
           </div>
 
           {/* Section 2 */}
@@ -181,21 +332,43 @@ const Signup = () => {
             </div>
             <div className={styles.field}>
               <p>Write something about you</p>
-              <textarea type="text" rows={4} placeholder="About yourself" />
+              <textarea
+                type="text"
+                rows={4}
+                placeholder="About yourself"
+                onChange={(e) =>
+                  setUserData({ ...userData, bio: e.target.value })
+                }
+              />
             </div>
+
+            <div className={styles.field}>
+              <p>Doamin *</p>
+              <input
+                type="text"
+                placeholder="Domain"
+                onChange={(e) =>
+                  setUserData({ ...userData, domain: e.target.value })
+                }
+              />
+            </div>
+
             <div className={styles.field}>
               <p>Select Skills *</p>
               <div className={styles.skills}>
-                {skills.length > 0
-                  ? skills.map((skill) => (
+                {userData.skills.length > 0
+                  ? userData.skills.map((skill) => (
                       <span key={skill} id={skill}>
                         {skill}
                         <i
                           className="fa-solid fa-xmark"
                           onClick={() => {
-                            skills.splice(skills.indexOf(skill), 1);
+                            userData.skills.splice(
+                              userData.skills.indexOf(skill),
+                              1
+                            );
                             document.getElementById(skill).remove();
-                            console.log(skills);
+                            // console.log(userData.skills);
                           }}
                         ></i>
                       </span>
@@ -236,9 +409,13 @@ const Signup = () => {
                     <span
                       key={technology}
                       onClick={() => {
-                        if (!skills.includes(technology)) {
-                          setSkills((skills) => [...skills, technology]);
+                        if (!userData.skills.includes(technology)) {
+                          setUserData({
+                            ...userData,
+                            skills: [...userData.skills, technology],
+                          });
                         }
+                        setTechnology('');
                       }}
                     >
                       {technology}
@@ -246,8 +423,18 @@ const Signup = () => {
                   ))}
               </div>
             </div>
-            <button>Back</button>
-            <button style={{ marginTop: '15px' }}>Next</button>
+            <button
+              onClick={() => {
+                setError(null);
+                setShowError(false);
+                setActiveWizard('1');
+              }}
+            >
+              Back
+            </button>
+            <button style={{ marginTop: '15px' }} onClick={handleSecondWizard}>
+              Next
+            </button>
           </div>
 
           {/* Section 3 */}
@@ -268,16 +455,28 @@ const Signup = () => {
                 <div className={styles.link}>
                   <div className={styles.linkHeader}>
                     <i className="fa-brands fa-linkedin"></i>
-                    <p>LinkedIn</p>
+                    <p>LinkedIn *</p>
                   </div>
-                  <input type="text" placeholder="Ex. username" />
+                  <input
+                    type="text"
+                    placeholder="LinkedIn"
+                    onChange={(e) =>
+                      setUserData({ ...userData, linkedin: e.target.value })
+                    }
+                  />
                 </div>
                 <div className={styles.link}>
                   <div className={styles.linkHeader}>
                     <i className="fa-brands fa-github"></i>
-                    <p>Github</p>
+                    <p>Github *</p>
                   </div>
-                  <input type="text" placeholder="Ex. username" />
+                  <input
+                    type="text"
+                    placeholder="Github"
+                    onChange={(e) =>
+                      setUserData({ ...userData, github: e.target.value })
+                    }
+                  />
                 </div>
               </div>
               <div className={styles.linkRow2}>
@@ -286,14 +485,26 @@ const Signup = () => {
                     <i className="fa-brands fa-twitter"></i>
                     <p>Twitter</p>
                   </div>
-                  <input type="text" placeholder="Ex. username" />
+                  <input
+                    type="text"
+                    placeholder="Twitter"
+                    onChange={(e) =>
+                      setUserData({ ...userData, twitter: e.target.value })
+                    }
+                  />
                 </div>
                 <div className={styles.link}>
                   <div className={styles.linkHeader}>
                     <i className="fa-solid fa-link"></i>
                     <p>Portfolio</p>
                   </div>
-                  <input type="text" placeholder="Ex. username" />
+                  <input
+                    type="text"
+                    placeholder="Portfolio"
+                    onChange={(e) =>
+                      setUserData({ ...userData, portfolio: e.target.value })
+                    }
+                  />
                 </div>
               </div>
               <div className={styles.field}>
@@ -302,22 +513,35 @@ const Signup = () => {
                   <input
                     type={showPassword ? `text` : `password`}
                     placeholder="Password"
+                    onChange={(e) =>
+                      setUserData({ ...userData, password: e.target.value })
+                    }
                   />
                   {showPassword ? (
                     <i
-                      class="fa-solid fa-eye-slash"
+                      className="fa-solid fa-eye-slash"
                       onClick={() => setShowPassword(!showPassword)}
                     ></i>
                   ) : (
                     <i
-                      class="fa-solid fa-eye"
+                      className="fa-solid fa-eye"
                       onClick={() => setShowPassword(!showPassword)}
                     ></i>
                   )}
                 </div>
               </div>
-              <button>Back</button>
-              <button style={{ marginTop: '15px' }}>Signup</button>
+              <button
+                onClick={() => {
+                  setError(null);
+                  setShowError(false);
+                  setActiveWizard('2');
+                }}
+              >
+                Back
+              </button>
+              <button style={{ marginTop: '15px' }} onClick={handleSignup}>
+                Signup
+              </button>
             </div>
           </div>
         </div>
@@ -327,8 +551,11 @@ const Signup = () => {
             activeWizard === '1' ? { display: 'flex' } : { display: 'none' }
           }
         >
-          <span>
-            Already have an account! <a href="/login">Click here</a>
+          <span
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/login')}
+          >
+            Already have an account! <a>Click here</a>
           </span>
         </div>
       </div>

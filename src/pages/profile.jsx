@@ -1,11 +1,131 @@
 // @ /users/47854125
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Project from '../components/profile/Project';
 import styles from '../styles/pages/Profile.module.css';
 
-const profile = () => {
-  const data = {
+const Profile = () => {
+  const { id } = useParams();
+
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch(
+        `https://devfinder-backend.onrender.com/api/profile/${id}`
+      );
+
+      const json = await response.json();
+
+      if (response.ok) {
+        setUser(json);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  return (
+    <>
+      {user && (
+        <div className={styles.container}>
+          <div className={styles.profile}>
+            <div className={styles.personalInformation}>
+              <img src={user?.image} alt={`${user?.name}_profile`} />
+
+              <div className={styles.informationContainer}>
+                <div className={styles.information}>
+                  <h1>{user.name}</h1>
+
+                  <p>{user.bio}</p>
+
+                  <div className={styles.socials}>
+                    {user?.linkedin && (
+                      <a href={user.linkedin} target="_blank" rel="noreferrer">
+                        <i className="fa-brands fa-linkedin"></i>
+                      </a>
+                    )}
+
+                    {user?.github && (
+                      <a href={user.github} target="_blank" rel="noreferrer">
+                        <i className="fa-brands fa-github"></i>
+                      </a>
+                    )}
+
+                    {user?.twitter && (
+                      <a href={user.twitter} target="_blank" rel="noreferrer">
+                        <i className="fa-brands fa-twitter"></i>
+                      </a>
+                    )}
+
+                    {user?.portfolio && (
+                      <a href={user.portfolio} target="_blank" rel="noreferrer">
+                        <i className="fa-solid fa-link"></i>
+                      </a>
+                    )}
+                  </div>
+                  <button>
+                    <a href={`mailto:${user.email}`}>
+                      Email &nbsp;
+                      <i className="fa-solid fa-envelope"></i>
+                    </a>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.header}>
+              <div></div>
+              <h6>My Skills and Projects</h6>
+              <div></div>
+            </div>
+            <div className={styles.skillProject}>
+              <h2>Skills</h2>
+              <div className={styles.skills}>
+                {user.skills.map((skill) => (
+                  <strong key={skill}>{skill}</strong>
+                ))}
+              </div>
+              <h2>Projects</h2>
+              <div className={styles.projects}>
+                {user.projects.map((project) => (
+                  <Project key={project._id} project={project} />
+                ))}
+              </div>
+            </div>
+
+            {/* {!data.student && (
+          <>
+            <div className={styles.header}>
+              <div></div>
+              <h6>Industrial Experience</h6>
+              <div></div>
+            </div>
+            <div className={styles.workExperience}>
+              <i class="fa-solid fa-building"></i>
+              <div className={styles.workInformation}>
+                <h3>{data.position}</h3>
+                <h4>
+                  <strong>at</strong> {data.companyName}
+                </h4>
+                <h5>{data.city}</h5>
+                <h6>{data.experience} of experience</h6>
+              </div>
+            </div>
+          </>
+        )} */}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Profile;
+
+/*
+const data = {
     image: '/images/profile1.png',
     name: 'Viktor Fedorov',
     bio: "I'm a web developer. I spend my whole day, practically every day, experimenting with HTML, CSS, and JavaScript",
@@ -62,113 +182,4 @@ const profile = () => {
     city: 'Pune',
     experience: '3 years',
   };
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.profile}>
-        <div className={styles.personalInformation}>
-          <img src={data.image} alt={`${data.name}_profile`} />
-
-          <div className={styles.informationContainer}>
-            <div className={styles.information}>
-              <h1>{data.name}</h1>
-
-              <p>{data.bio}</p>
-
-              <div className={styles.socials}>
-                {data.socials?.linkedin && (
-                  <a
-                    href={data.socials.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="fa-brands fa-linkedin"></i>
-                  </a>
-                )}
-
-                {data.socials?.github && (
-                  <a
-                    href={data.socials.github}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="fa-brands fa-github"></i>
-                  </a>
-                )}
-
-                {data.socials?.twitter && (
-                  <a
-                    href={data.socials.twitter}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="fa-brands fa-twitter"></i>
-                  </a>
-                )}
-
-                {data.socials?.portfolio && (
-                  <a
-                    href={data.socials.portfolio}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <i className="fa-solid fa-link"></i>
-                  </a>
-                )}
-              </div>
-              <button>
-                <a href={`mailto:${data.email}`}>
-                  Email &nbsp;
-                  <i class="fa-solid fa-envelope"></i>
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.header}>
-          <div></div>
-          <h6>My Skills and Projects</h6>
-          <div></div>
-        </div>
-        <div className={styles.skillProject}>
-          <h2>Skills</h2>
-          <div className={styles.skills}>
-            {data.skills.map((skill) => (
-              <strong key={skill.skill_id}>{skill.skill_title}</strong>
-            ))}
-          </div>
-          <h2>Projects</h2>
-          <div className={styles.projects}>
-            {data.projects.map((project) => (
-              <Project key={project.title} project={project} />
-            ))}
-          </div>
-        </div>
-
-        {!data.student && (
-          <>
-            <div className={styles.header}>
-              <div></div>
-              <h6>Industrial Experience</h6>
-              <div></div>
-            </div>
-            <div className={styles.workExperience}>
-              <i class="fa-solid fa-building"></i>
-              <div className={styles.workInformation}>
-                <h3>{data.position}</h3>
-                <h4>
-                  <strong>at</strong> {data.companyName}
-                </h4>
-                <h5>{data.city}</h5>
-                <h6>{data.experience} of experience</h6>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default profile;
+*/

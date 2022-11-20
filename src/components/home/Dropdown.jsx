@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/pages/Home.module.css';
 
 const Dropdown = () => {
-  const inputRef = useRef();
-
   const technologies = [
     'C',
     'CPP',
@@ -21,6 +20,10 @@ const Dropdown = () => {
     'AWS',
     'Azure',
   ];
+
+  const inputRef = useRef();
+
+  const navigate = useNavigate();
 
   const [openDropdown, setOpenDropdown] = useState(false);
 
@@ -40,17 +43,23 @@ const Dropdown = () => {
     inputRef.current.focus();
   };
 
+  const handleSearchBySkill = () => {
+    if (technology.length > 0) {
+      navigate(`/users?skill=${technology}`);
+    }
+  };
+
   return (
     <div className={styles.dropdownContainer}>
       <h2>
-        Search Developers <br /> By Their <span>Skills</span>
+        Search Developers <br /> By <span>Tech-Stack!</span>
       </h2>
       <div className={styles.dropdown}>
         <div className={styles.dropdownWrapper}>
           <div className={styles.dropdownHeading} onClick={handleOpenDropdown}>
             <div>
-              <h4>Skill</h4>
-              <p>Which skill you are looking for?</p>
+              <h4>Technology</h4>
+              <p>What tech you are looking for?</p>
             </div>
             {openDropdown ? (
               <i
@@ -91,13 +100,27 @@ const Dropdown = () => {
                     {tech}
                   </span>
                 ))}
+              {/* {technologies
+                .filter((tech) =>
+                  tech.language.toLowerCase().includes(technology.toLowerCase())
+                )
+                .map((tech) => (
+                  <span
+                    key={tech.language}
+                    onClick={() => setTechnology(tech.language)}
+                    className={styles.technologyList}
+                  >
+                    {tech.language}
+                    <tech.icon size={23} style={{ marginLeft: '5px' }} />
+                  </span>
+                ))} */}
             </div>
           </div>
         </div>
 
         <div className={styles.divider}></div>
 
-        <button className={styles.search}>
+        <button className={styles.search} onClick={handleSearchBySkill}>
           Search
           <i
             className="fa-solid fa-magnifying-glass"

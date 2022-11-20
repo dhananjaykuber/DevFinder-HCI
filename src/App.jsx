@@ -1,27 +1,46 @@
 import './App.css';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
 import Users from './pages/users';
 import Layout from './components/Layout';
 import Profile from './pages/profile';
+import UserProfile from './pages/userprofile';
+import { useContextState } from './hooks/useContextState';
 
 function App() {
+  const { user } = useContextState();
+
   return (
     <div className="App">
-      <Layout>
-        <Router>
+      <Router>
+        <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/users/:username" element={<Profile />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/users/:id" element={<Profile />} />
+            <Route
+              path="/signup"
+              element={user ? <Navigate to="/" /> : <Signup />}
+            />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+              path="/profile"
+              element={user ? <UserProfile /> : <Navigate to="/signup" />}
+            />
           </Routes>
-        </Router>
-      </Layout>
+        </Layout>
+      </Router>
     </div>
   );
 }

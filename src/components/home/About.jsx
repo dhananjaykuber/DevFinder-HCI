@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/pages/Home.module.css';
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className={styles.about}>
@@ -16,7 +19,12 @@ const About = () => {
             cum beatae numquam tempora repudiandae aperiam odit, saepe tenetur
             corrupti minus quia voluptatibus iste culpa. Culpa.
           </p>
-          <button className={styles.outlined}>Create Account</button>
+          <button
+            className={styles.outlined}
+            onClick={() => navigate('/signup')}
+          >
+            Create Account
+          </button>
         </div>
       </div>
     </>
