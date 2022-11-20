@@ -85,7 +85,7 @@ export const ContextProvider = ({ children }) => {
     if (user) {
       fetchUser();
     }
-  }, [user]);
+  }, []);
 
   return (
     <Context.Provider value={{ ...state, dispatch }}>
